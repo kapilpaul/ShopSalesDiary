@@ -1,0 +1,61 @@
+#image-preview {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #ecf0f1;
+}
+#image-preview input {
+    line-height: 200px;
+    font-size: 200px;
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+}
+#image-preview label {
+    position: absolute;
+    z-index: 5;
+    opacity: 0.8;
+    cursor: pointer;
+    background-color: #bdc3c7;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+    line-height: 50px;
+    text-transform: uppercase;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+}
+
+
+.no_bottom_margin{
+    margin-bottom: 0;
+}
+
+.product-image{
+    width: 100px;
+    height: auto;
+}
+
+.form-group.has-feedback i.fa{
+    font-size: 18px;
+}
+
+.two_col_forms{
+    margin-top:15px;
+}
+
+.two_col_forms .box-body{
+    padding: 0 10px;
+}
+
+.no-left-padding{
+    padding-left: 0 !important;
+}
+.no-right-padding{
+    padding-right: 0 !important;
+}
