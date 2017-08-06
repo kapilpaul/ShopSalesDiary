@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Stock extends Model
 {
@@ -12,6 +13,7 @@ class Stock extends Model
         "stockin_id",
         "color",
         "quantity",
+        "stock_left",
         "buying_price",
         "selling_price",
         "paid",
@@ -19,6 +21,9 @@ class Stock extends Model
         "date",
         "amount",
         "user_id",
+        "waranty",
+        "stock_left",
+        "empty",
     ];
 
 
@@ -50,5 +55,34 @@ class Stock extends Model
     public function brand(){
         return $this->belogsTo('App\Brand');
     }
+
+//    public function stockIdProductName(){
+//        return DB::table('stocks')
+//                   ->join('products', 'stocks.product_id', '=', 'products.id')
+//                   ->select('stocks.*', 'products.*')
+//                   ->get();
+//    }
+
+    public function stockIdProductName(){
+        //DB::enableQueryLog();
+
+        return DB::table('stocks')
+                   ->join('products', 'stocks.product_id', '=', 'products.id')
+                   ->where('stock_left', '!=', '0')
+                   ->orderBy('stock_left', 'asc')
+                   ->select('stocks.*', 'products.name')
+                   ->get()
+                   ->mapWithKeys(function($i) {
+                        return [$i->id => 'MGSE-'.$i->stockin_id.' : '.$i->name.' ('.$i->color.') / '.
+                                          $i->stock_left.' in Stock'];
+                   });
+        
+        //dd(DB::getQueryLog());
+
+
+    }
+
+
+
 
 }

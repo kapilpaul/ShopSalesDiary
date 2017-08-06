@@ -76,7 +76,7 @@
                                             <!-- start message -->
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    <img src="{{asset('img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
                                                 </div>
                                                 <h4>
                                                     Support Team
@@ -89,7 +89,7 @@
                                         <li>
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <img src="img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    <img src="{{env('APP_URL')}}/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                                                 </div>
                                                 <h4>
                                                     AdminLTE Design Team
@@ -101,7 +101,7 @@
                                         <li>
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <img src="img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    <img src="{{env('APP_URL')}}/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                                                 </div>
                                                 <h4>
                                                     Developers
@@ -113,7 +113,7 @@
                                         <li>
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <img src="img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    <img src="{{env('APP_URL')}}/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                                                 </div>
                                                 <h4>
                                                     Sales Department
@@ -125,7 +125,7 @@
                                         <li>
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <img src="img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    <img src="{{env('APP_URL')}}/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                                                 </div>
                                                 <h4>
                                                     Reviewers
@@ -364,6 +364,8 @@
     <script src="{{asset('libs/dist/js/pages/dashboard2.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('libs/dist/js/demo.js')}}"></script>
+
+
 
     @yield('javascript')
 </body>

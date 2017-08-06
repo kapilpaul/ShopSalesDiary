@@ -6,7 +6,9 @@ use App\Http\Requests\StockAddRequest;
 use App\Products;
 use App\Stock;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class StockController extends Controller
 {
@@ -62,6 +64,7 @@ class StockController extends Controller
         $input['due'] = $input['amount'] - $request->paid;
 
         $input['stockin_id'] = $stock->stockInIdGenerate();
+        $input['stock_left'] = $request->quantity;
 
         $input['user_id'] = Sentinel::getUser()->id;
 
@@ -81,7 +84,7 @@ class StockController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect(404);
     }
 
     /**
@@ -130,5 +133,29 @@ class StockController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+
+    public function findSellingPrice()
+    {
+        $product_id = Input::get('product_id');
+        $selling_price = Stock::whereId($product_id)->first();
+        return $selling_price;
+
+    }
+
+    public function availableStocks()
+    {
+        $stocks = Stock::where('stock_left', '>', '0')->get();
+        $page_count = 0;
+
+        if(count($stocks) > 10){
+            $stocks = Stock::where('stock_left', '>', '0')->paginate(10,['*'],'stocks');
+            $page_count = $stocks->count();
+        }
+        return view('admin.stock.availableStock', compact('stocks', 'page_count'));
+
     }
 }

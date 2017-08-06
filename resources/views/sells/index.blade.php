@@ -1,7 +1,7 @@
 @extends('layouts.admin_index')
 
 @section('title')
-    Stocks
+    Sells
 @stop
 
 
@@ -10,10 +10,10 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Stocks</h1>
+            <h1>Sells</h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Stocks</a></li>
+                <li><a href="#">Sells</a></li>
             </ol>
         </section>
 
@@ -24,7 +24,7 @@
                 <div class="col-md-12">
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">All Stocks</h3>
+                            <h3 class="box-title">All Sells</h3>
                         </div>
 
                         @if(session('success'))
@@ -35,7 +35,7 @@
                             </div>
                         @endif
 
-                        @if($stocks)
+                        @if($sells)
                         <!-- /.box-header -->
 
                             <div class="box-body no-padding category_table">
@@ -43,49 +43,61 @@
                                     <tbody>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Stock ID</th>
-                                        <th style="width: 150px">Image</th>
-                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Invoice No</th>
+                                        <th>Stock</th>
+                                        <th>Customer Name</th>
+                                        <th>Product Name</th>
                                         <th>Color</th>
-                                        <th>Quantity</th>
-                                        <th>Brand</th>
-                                        <th>Category</th>
-                                        <th>Buying Price</th>
-                                        <th>Selling Price</th>
-                                        <th>Paid</th>
-                                        <th>Due</th>
-                                        <th>Stock Added By</th>
+                                        <th>Code</th>
+                                        <th>Qty</th>
+                                        <th>Discount</th>
+                                        <th>Total Amount</th>
+                                        <th>Gifts</th>
+                                        <th>Sold By</th>
                                         <th style="width: 20px">Edit</th>
                                         <th style="width: 20px">Delete</th>
                                     </tr>
 
                                     <?php $i= 0;?>
-                                    @foreach($stocks as $stock)
+                                    @foreach($sells as $sell)
                                         <?php $i++ ;?>
-                                        <tr @if($stock->stock_left == null) style="background-color: #ddd" @endif>
+                                        <tr>
                                             <td>{{ $i }}</td>
 
-                                            <td>MGSE-{{ $stock->stockin_id }}</td>
                                             <td>
-                                                @if($stock->product->photo)
-                                                    <img class="img-thumbnail product-image" src="{{ $stock->product->photo->photo }}" alt="">
+                                                @if(\Carbon\Carbon::parse($sell->created_at)->format('d M Y') == \Carbon\Carbon::now()->format('d M Y'))
+                                                    {{ \Carbon\Carbon::parse($sell->created_at)->diffForHumans() }}
                                                 @else
-                                                    No Image
+                                                    {{ \Carbon\Carbon::parse($sell->created_at)->format('d M Y') }}
                                                 @endif
                                             </td>
-                                            <td>{{ $stock->product->name }}</td>
-                                            <td>{{ $stock->color }}</td>
-                                            <td>{{ $stock->quantity }}</td>
-                                            <td>{{ $stock->product->brand->name }}</td>
-                                            <td>{{ $stock->product->category->name }}</td>
-                                            <td>{{ $stock->buying_price }}</td>
-                                            <td>{{ $stock->selling_price }}</td>
-                                            <td>{{ $stock->paid }}</td>
-                                            <td>{{ $stock->due }}</td>
-                                            <td>{{ $stock->user->name }}</td>
+                                            <td>MGSIT-{{ $sell->invoice_no }}</td>
+                                            <td>MGSE-{{ $sell->stock->stockin_id }}</td>
+                                            <td>{{ $sell->customer->name }}</td>
+                                            <td>{{ $sell->stock->product->name }}</td>
+                                            <td>{{ $sell->stock->color }}</td>
+                                            <td>
+                                                @if($sell->product_code)
+                                                    {{ $sell->product_code }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                            <td>{{ $sell->quantity }}</td>
+                                            <td>{{ $sell->discount }}</td>
+                                            <td>{{ $sell->total_amount }}</td>
+                                            <td>
+                                                @if($sell->gifts)
+                                                    {{ $sell->gifts }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                            <td>{{ $sell->user->name }}</td>
 
                                             <td>
-                                                <a href="{{ route('stocks.edit', $stock->id) }}">
+                                                <a href="">
                                                     <p class="no_bottom_margin" data-placement="top" data-toggle="tooltip" title=""
                                                        data-original-title="Edit">
 
@@ -99,7 +111,7 @@
                                             <td>
 
 
-                                                {!! Form::open(['method' => 'DELETE', 'class' =>'user_delete pull-left', 'action' => ['StockController@destroy', $stock->id]]) !!}
+                                                {!! Form::open(['method' => 'DELETE', 'class' =>'user_delete pull-left', 'action' => ['SellsController@destroy', $sell->id]]) !!}
                                                 <p class="no_bottom_margin" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete">
                                                     <button onclick="alert('Are You Sure You Want To Delete')" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
                                                         <span class="glyphicon glyphicon-trash"></span>
@@ -116,7 +128,7 @@
                         @endif
                     <!-- /.box-body -->
                         @if($page_count > 0)
-                            {{ $stocks->links('layouts.pagination') }}
+                            {{ $sell->links('layouts.pagination') }}
                         @endif
 
 

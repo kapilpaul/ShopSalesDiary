@@ -4,7 +4,10 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +47,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof ModelNotFoundException)
+        {
+            abort(404);
+        }
+
+
+        if ($exception instanceof TokenMismatchException) {
+
+            return redirect()->back()->with(['error' => 'You page session expired. Please try again']);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+
+            return redirect('index');
+        }
+
         return parent::render($request, $exception);
     }
 

@@ -76,7 +76,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect(404);
     }
 
     /**

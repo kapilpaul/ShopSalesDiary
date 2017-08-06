@@ -82,7 +82,7 @@ class AdminUserController extends Controller
      */
     public function show($id)
     {
-
+        return redirect(404);
     }
 
     /**

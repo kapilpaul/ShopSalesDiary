@@ -136,7 +136,7 @@
                                 </div>
 
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="box-body no-right-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('paid') !!}
@@ -147,7 +147,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="box-body no-left-padding no-right-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('due') !!}
@@ -158,7 +158,18 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
+                                    <div class="box-body no-left-padding no-right-padding">
+                                        <div class="form-group has-feedback">
+                                            {!! Form::label('waranty (In months)') !!}
+                                            {!! Form::text('waranty', 0, ['class'=>'form-control', 'placeholder' => 'waranty (in months)']) !!}
+
+                                            <i class="fa fa-money form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
                                     <div class="box-body no-left-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('Date') !!}

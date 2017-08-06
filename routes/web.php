@@ -78,6 +78,16 @@ Route::middleware('admin')->group(function(){
     /* Stock Controller Routes */
 
     Route::resource('stocks', 'StockController');
+    Route::get('stocks/find/sellingprice', 'StockController@findSellingPrice')->name('findsellingprice');
+    Route::get('stocks/available/items', 'StockController@availableStocks')->name('availableStock');
+
+    /* Sell Controller Routes */
+
+    Route::post('sells/create/', 'SellsController@create')->name('sells.create');
+    Route::get('sells/search', 'SellsController@search')->name('sells.search');
+    Route::post('sells', 'SellsController@store')->name('sells.store');
+    Route::get('sells', 'SellsController@index')->name('sells.index');
+    Route::delete('sells/{sells}', 'SellsController@destroy')->name('sells.destroy');
 
 
 

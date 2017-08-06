@@ -59,3 +59,11 @@
 .no-right-padding{
     padding-right: 0 !important;
 }
+
+
+#stock_empty_msg {
+    padding-bottom: 0;
+}
+#stock_empty_msg > .alert{
+    margin-bottom: 0;
+}

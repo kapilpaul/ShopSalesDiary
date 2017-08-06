@@ -21,11 +21,14 @@ class CreateStocksTable extends Migration
             $table->integer('buying_price')->unsigned();
             $table->integer('selling_price')->unsigned();
             $table->integer('quantity')->unsigned();
+            $table->integer('stock_left')->default(0);
             $table->bigInteger('amount')->unsigned();
             $table->bigInteger('paid')->nullable();
             $table->bigInteger('due')->nullable();
+            $table->integer('waranty')->nullable();
             $table->date('date');
             $table->integer('user_id')->unsigned();
+            $table->integer('empty')->unsigned()->default(0);
             $table->timestamps();
         });
     }

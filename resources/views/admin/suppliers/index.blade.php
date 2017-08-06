@@ -150,7 +150,7 @@
                                             <?php
                                                 $j=0;
                                                 foreach($supplier->brands as $brandName){
-                                                    $coma = ($j>0)? ', ':'';
+                                                    $coma = ($j>0)? ' / ':'';
                                                     echo $coma.$brandName->name;
                                                     $j++;
                                                 }
