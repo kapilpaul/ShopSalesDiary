@@ -88,6 +88,7 @@ Route::middleware('admin')->group(function(){
     Route::post('sells', 'SellsController@store')->name('sells.store');
     Route::get('sells', 'SellsController@index')->name('sells.index');
     Route::delete('sells/{sells}', 'SellsController@destroy')->name('sells.destroy');
+    Route::get('sells/currentmonth/sell', 'SellsController@currentMonthSell')->name('currentmonth.sell');
 
 
 

@@ -7,9 +7,11 @@ use App\Http\Requests\CustomerSellsRequest;
 use App\Products;
 use App\Sells;
 use App\Stock;
+use Carbon\Carbon;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class SellsController extends Controller
@@ -169,6 +171,40 @@ class SellsController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $sell_item = Sells::whereId($id)->first();
+        $stockById = Stock::whereId($sell_item->stock_id)->first();
+        $stock_left = $stockById->stock_left + $sell_item->quantity;
+        $stockById->update(['stock_left' => $stock_left]);
+
+        $sell_item->delete();
+
+        return redirect()->back()->with(['success' => 'Sells Item Deleted']);
     }
+
+
+    public function currentMonthSell(){
+        $month = date('m');
+        $year = date('Y');
+        $sells = Sells::whereMonth('created_at', $month)->whereYear('created_at', $year)->get();
+        $sum_amount = Sells::whereMonth('created_at', $month)->whereYear('created_at', $year)->sum('total_amount');
+
+        $customers = Customer::whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
+        $page_count = 0;
+
+        $profit_buying_price = 0;
+        foreach ($sells as $sell){
+            $total_buying_sum = $sell->stock->buying_price;
+            $profit_buying_price = $profit_buying_price + $total_buying_sum;
+        }
+
+
+        if(count($sells) > 10){
+            $sells = Sells::whereMonth('created_at', $month)->whereYear('created_at', $year)->paginate(10,['*'],'sells');
+            $page_count = $sells->count();
+        }
+        return view('sells.current_month', compact('sells', 'page_count', 'customers', 'sum_amount', 'profit_buying_price'));
+    }
+
+
 }
