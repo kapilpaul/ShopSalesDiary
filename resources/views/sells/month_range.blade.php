@@ -1,7 +1,12 @@
 @extends('layouts.admin_index')
 
 @section('title')
-    Current Month Sells
+    Selected Month Sells
+@stop
+
+@section('top_css')
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{ asset('libs/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
 @stop
 
 
@@ -10,7 +15,7 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Current Month Sells</h1>
+            <h1>Select Month Sells</h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li><a href="#">Current Month Sells</a></li>
@@ -20,8 +25,44 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Current Month Sells</h3>
+                        </div>
 
+                        @if(session('success'))
+                            <div class="box-body">
+                                <div class="alert alert-success">
+                                    <p>{{session('success')}}</p>
+                                </div>
+                            </div>
+                        @endif
 
+                    {!! Form::open(['method' => 'POST', 'action' => 'SellsController@PostsearchMonthRange', 'class' => 'two_col_forms']) !!}
+
+                        <div class="box-body"  style="padding-bottom: 20px">
+                            <div class="input-group input-group-md">
+                                {!! Form::text('daterange', null, ['id'=>"daterange-btn", 'class'=>'form-control btn
+                                btn-primary
+                                btn-block',]) !!}
+                                <span class="input-group-btn">
+                                        {!! Form::submit('Search', ['class'=>'btn btn-info btn-flat']) !!}
+                                    </span>
+                            </div>
+                            @if ($errors->has('daterange'))
+                                <span class="help-block">
+                                    <p class="text-red">{{ $errors->first('daterange', 'Please Pick Date Range')
+                                    }}</p>
+                                </span>
+                            @endif
+                        </div>
+                    <!-- /.box-body -->
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+
+            @if($sells)
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-lg-3 col-xs-6">
@@ -193,6 +234,9 @@
 
                     </div>
                 </div>
+
+            @endif
+
             </div>
             <!-- /.row -->
 
@@ -201,3 +245,57 @@
     </div>
     <!-- /.content-wrapper -->
 @stop
+
+
+@section('top_javascript')
+
+
+    <!-- InputMask -->
+    <script src="{{asset('libs/plugins/input-mask/jquery.inputmask.js')}}"></script>
+    <script src="{{asset('libs/plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+    <script src="{{asset('libs/plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
+
+    <!-- date-range-picker -->
+    <script src="{{asset('libs/bower_components/moment/min/moment.min.js')}}"></script>
+    <script src="{{asset('libs/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+@stop
+
+
+@section('javascript')
+    <script>
+        $(function () {
+
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', {
+                'placeholder': 'dd/mm/yyyy'
+            })
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', {
+                'placeholder': 'mm/dd/yyyy'
+            })
+            //Money Euro
+            $('[data-mask]').inputmask()
+
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range as a button
+            $('#daterange-btn').daterangepicker({
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+
+        })
+    </script>
+    @stop

@@ -207,4 +207,46 @@ class SellsController extends Controller
     }
 
 
+    public function searchMonthRange(){
+        $sells = 0;
+        return view('sells.month_range', compact('sells'));
+    }
+
+    public function PostsearchMonthRange(Request $request){
+        $this->validate($request, [
+            'daterange' => 'required',
+        ]);
+
+        $date_range = explode(' - ', $request->daterange);
+
+        $date_range_from = date('Y-m-d', strtotime($date_range[0]));
+        $date_range_to = date('Y-m-d', strtotime($date_range[1]));
+
+        $date_range_from = "$date_range_from 00:00:00";
+        $date_range_to = "$date_range_to 23:59:59";
+
+        $sells = Sells::whereBetween('created_at', [$date_range_from, $date_range_to])->get();
+
+        $sum_amount = Sells::whereBetween('created_at', [$date_range_from, $date_range_to])->sum('total_amount');
+
+        $customers = Customer::whereBetween('created_at', [$date_range_from, $date_range_to])->count();
+        $page_count = 0;
+
+        $profit_buying_price = 0;
+        foreach ($sells as $sell){
+            $total_buying_sum = $sell->stock->buying_price;
+            $profit_buying_price = $profit_buying_price + $total_buying_sum;
+        }
+
+
+        if(count($sells) > 10){
+            $sells = Sells::whereBetween('created_at', [$date_range_from, $date_range_to])->paginate(10,['*'],'sells');
+            $page_count = $sells->count();
+        }
+
+        return view('sells.month_range', compact('date_range_from', 'date_range_to', 'sells', 'page_count', 'customers', 'sum_amount', 'profit_buying_price'));
+
+    }
+
+
 }

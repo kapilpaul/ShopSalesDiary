@@ -56,7 +56,7 @@
                             Stocks</a></li>
                 </ul>
             </li>
-            <li class="treeview {{ areActiveRoutes(['sells.search', 'sells.index', 'currentmonth.sell']) }}">
+            <li class="treeview {{ areActiveRoutes(['sells.search', 'sells.index', 'currentmonth.sell', 'searchMonthRange.sell']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>Sells</span>
@@ -68,7 +68,7 @@
                     <li class="{{ isActiveRoute('sells.search') }}"><a href="{{ route('sells.search') }}"><i class="fa fa-circle-o"></i> New Sell</a></li>
                     <li class="{{ isActiveRoute('sells.index') }}"><a href="{{ route('sells.index') }}"><i class="fa fa-circle-o"></i> View All Sales</a></li>
                     <li class="{{ isActiveRoute('currentmonth.sell') }}"><a href="{{ route('currentmonth.sell') }}"><i class="fa fa-circle-o"></i> Current Month Sales</a></li>
-                    <li class="{{ isActiveRoute('stocks.create') }}"><a href="#"><i class="fa fa-circle-o"></i> Search Monthly Sale</a></li>
+                    <li class="{{ isActiveRoute('searchMonthRange.sell') }}"><a href="{{ route('searchMonthRange.sell') }}"><i class="fa fa-circle-o"></i> Search Monthly Sale</a></li>
                 </ul>
             </li>
             <li class="{{ isActiveRoute('suppliers.index') }}">

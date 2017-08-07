@@ -89,6 +89,8 @@ Route::middleware('admin')->group(function(){
     Route::get('sells', 'SellsController@index')->name('sells.index');
     Route::delete('sells/{sells}', 'SellsController@destroy')->name('sells.destroy');
     Route::get('sells/currentmonth/sell', 'SellsController@currentMonthSell')->name('currentmonth.sell');
+    Route::get('sells/search/monthrange', 'SellsController@searchMonthRange')->name('searchMonthRange.sell');
+    Route::post('sells/search/monthrange/', 'SellsController@PostsearchMonthRange')->name('PostsearchMonthRange.sell');
 
 
 

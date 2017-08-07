@@ -132,7 +132,9 @@ class StockController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Stock::whereId($id)->delete();
+
+        return redirect()->back()->with(['success' => 'Stock has been Deleted']);
     }
 
 
