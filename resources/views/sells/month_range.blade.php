@@ -18,7 +18,7 @@
             <h1>Select Month Sells</h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Current Month Sells</a></li>
+                <li><a href="#">Selected Month Sells</a></li>
             </ol>
         </section>
 
@@ -28,7 +28,7 @@
                 <div class="col-md-12">
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Current Month Sells</h3>
+                            <h3 class="box-title">Pick Date</h3>
                         </div>
 
                         @if(session('success'))
@@ -64,6 +64,9 @@
 
             @if($sells)
                 <div class="col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Show Sells from {{ $date_range[0] }} to {{ $date_range[1] }}</h3>
+                    </div>
                     <div class="row">
                         <div class="col-lg-3 col-xs-6">
                             <!-- small box -->

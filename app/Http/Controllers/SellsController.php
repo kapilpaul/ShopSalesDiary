@@ -244,7 +244,7 @@ class SellsController extends Controller
             $page_count = $sells->count();
         }
 
-        return view('sells.month_range', compact('date_range_from', 'date_range_to', 'sells', 'page_count', 'customers', 'sum_amount', 'profit_buying_price'));
+        return view('sells.month_range', compact('date_range', 'sells', 'page_count', 'customers', 'sum_amount', 'profit_buying_price'));
 
     }
 
