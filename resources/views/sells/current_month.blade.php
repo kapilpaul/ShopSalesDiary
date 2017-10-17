@@ -24,7 +24,7 @@
 
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-lg-3 col-xs-6">
+                        <div class="col-lg-2 col-xs-6">
                             <!-- small box -->
                             <div class="small-box bg-aqua">
                                 <div class="inner">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-xs-6">
+                        <div class="col-lg-2 col-xs-6">
                             <!-- small box -->
                             <div class="small-box bg-yellow">
                                 <div class="inner">
@@ -54,7 +54,7 @@
 
                         <div class="col-lg-3 col-xs-6">
                             <!-- small box -->
-                            <div class="small-box bg-red">
+                            <div class="small-box bg-red" style="background: #605ca8 !important;">
                                 <div class="inner">
                                     <h3>{{ $sum_amount }} Tk</h3>
 
@@ -66,11 +66,26 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-2 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-green" style="background-color: #D81B60 !important;">
+                                <div class="inner">
+                                    <h3>{{ $expenses }}</h3>
+
+                                    <p>Tk Expenses</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-lg-3 col-xs-6">
                             <!-- small box -->
-                            <div class="small-box bg-green">
+                            <div class="small-box @if(($sum_amount - $profit_buying_price - $expenses) < 0)bg-red
+@else bg-green @endif ">
                                 <div class="inner">
-                                    <h3>{{ $sum_amount - $profit_buying_price }}</h3>
+                                    <h3>{{ $sum_amount - $profit_buying_price - $expenses }}</h3>
 
                                     <p>Tk Profit</p>
                                 </div>
@@ -111,6 +126,7 @@
                                         <th>Code</th>
                                         <th>Qty</th>
                                         <th>Discount</th>
+                                        <th>Due</th>
                                         <th>Total Amount</th>
                                         <th>Gifts</th>
                                         <th>Sold By</th>
@@ -122,6 +138,7 @@
                                     @foreach($sells as $sell)
                                         <?php $i++ ;?>
                                         <tr>
+
                                             <td>{{ $i }}</td>
 
                                             <td>
@@ -131,29 +148,46 @@
                                                     {{ \Carbon\Carbon::parse($sell->created_at)->format('d M Y') }}
                                                 @endif
                                             </td>
-                                            <td>MGSIT-{{ $sell->invoice_no }}</td>
-                                            <td>MGSE-{{ $sell->stock->stockin_id }}</td>
+                                            <td>{{ $sell->invoice_no }}</td>
+
+                                            <td>@if($sell->stock)MGSE-{{ $sell->stock->stockin_id }} @else --
+                                                @endif</td>
+
                                             <td>{{ $sell->customer->name }}</td>
-                                            <td>{{ $sell->stock->product->name }}</td>
-                                            <td>{{ $sell->stock->color }}</td>
+
                                             <td>
-                                                @if($sell->product_code)
-                                                    {{ $sell->product_code }}
+                                                @if($sell->stock)
+                                                    @if($sell->stock->product)
+                                                        {{ $sell->stock->product->name }}
+                                                    @else -- @endif
+                                                @else -- @endif
+                                            </td>
+                                            <td>@if($sell->stock) {{ $sell->stock->color }} @else -- @endif</td>
+                                            <td>
+                                                @if($sell->imei)
+                                                    {{ $sell->imei->imei }}
                                                 @else
-                                                    N/A
+                                                    --
                                                 @endif
                                             </td>
                                             <td>{{ $sell->quantity }}</td>
                                             <td>{{ $sell->discount }}</td>
+                                            <td style="color:#ff2222"><b>{{ $sell->due }}</b></td>
                                             <td>{{ $sell->total_amount }}</td>
                                             <td>
                                                 @if($sell->gifts)
                                                     {{ $sell->gifts }}
                                                 @else
-                                                    N/A
+                                                    --
                                                 @endif
                                             </td>
-                                            <td>{{ $sell->user->name }}</td>
+                                            <td>
+                                                @if($sell->user)
+                                                    {{ $sell->user->name }}
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
 
                                             <td>
                                                 <a href="">
@@ -187,7 +221,7 @@
                         @endif
                     <!-- /.box-body -->
                         @if($page_count > 0)
-                            {{ $sell->links('layouts.pagination') }}
+                            {{ $sells->links('layouts.pagination') }}
                         @endif
 
 

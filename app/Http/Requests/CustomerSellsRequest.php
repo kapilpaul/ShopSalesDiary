@@ -26,9 +26,8 @@ class CustomerSellsRequest extends FormRequest
         return [
             'name' => 'required',
             'phone_no' => 'required|min:11',
-            'email' => 'email',
-            'stock_id' => 'required|numeric',
-            'quantity' => 'required|numeric',
+            'stock_id' => 'required|array',
+            'quantity' => 'required|array',
             'discount' => 'numeric',
         ];
     }
@@ -39,11 +38,10 @@ class CustomerSellsRequest extends FormRequest
             'name.required' => 'Customer name Cannot be Empty',
             'phone_no.required' => 'Phone No Required',
             'phone_no.min' => 'Phone No Must be 11 Digits',
-            'email.email'  => 'Please Enter a valid email address',
             'stock_id.required'  => 'Please select a product',
-            'stock_id.numeric'  => 'Invalid Stock Selected',
+            'stock_id.array'  => 'Invalid Stock Selected',
             'quantity.required'  => 'Quantity is required',
-            'quantity.numeric'  => 'Invalid Quantity. Must be Numeric',
+            'quantity.array'  => 'Invalid Quantity. Must be Array',
             'discount.numeric'  => 'Invalid Discount. Must be Numeric',
         ];
     }

@@ -154,7 +154,7 @@ class AdminUserController extends Controller
             $image->delete();
             unlink(public_path() . $user->photo->photo);
         }
-
+        Activation::remove($user);
         $user->delete();
 
         return redirect()->back()->with(['success' => $user->name.' is Deleted']);

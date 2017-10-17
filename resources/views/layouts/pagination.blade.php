@@ -2,7 +2,14 @@
 
     @if ($paginator->hasPages())
         <div class="box-body  pull-left">
-                <p class="text-aqua">Showing {{ $paginator->count() }} of {{ $paginator->total() }} Results </p>
+                <p class="text-aqua">
+                        {{ ($paginator->currentpage() - 1) * $paginator->perpage() + 1 }} to
+                        @if($paginator->currentpage()*$paginator->perpage() > $paginator->total())
+                                {{$paginator->total()}}
+                                @else
+                                        {{ $paginator->currentpage() *$paginator->perpage()}}
+                                @endif of
+                        {{$paginator->total()}} entries </p>
         </div>
         <ul class="pagination pagination-sm no-margin pull-right">
             {{-- Previous Page Link --}}

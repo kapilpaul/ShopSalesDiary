@@ -8,7 +8,6 @@
                 <img src="{{env('APP_URL')}}/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-
                 <p> @if(Sentinel::check())
                         {{ Sentinel::getUser()->name }}
                     @else
@@ -32,6 +31,8 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
+
+            @if(\Cartalyst\Sentinel\Laravel\Facades\Sentinel::check() && \Cartalyst\Sentinel\Laravel\Facades\Sentinel::getUser()->roles()->first()->slug == 'admin')
             <li class="{{ isActiveRoute('home') }}">
                 <a href="{{ route('home') }}"> <i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
             </li>
@@ -40,6 +41,18 @@
             </li>
             <li class="{{ isActiveRoute('brands.index') }}">
                 <a href="{{ route('brands.index') }}"> <i class="fa fa-dashboard"></i> <span>Brands</span></a>
+            </li>
+            <li class="treeview {{ areActiveRoutes(['products.create', 'products.index', ]) }}">
+                <a href="#">
+                    <i class="fa fa-edit"></i> <span>Products</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ isActiveRoute('products.create') }}"><a href="{{ route('products.create') }}"><i class="fa fa-circle-o"></i> New</a></li>
+                    <li class="{{ isActiveRoute('products.index') }}"><a href="{{ route('products.index') }}"><i class="fa fa-circle-o"></i> View</a></li>
+                </ul>
             </li>
             <li class="treeview {{ areActiveRoutes(['stocks.index', 'stocks.create', 'availableStock']) }}">
                 <a href="#">
@@ -52,10 +65,10 @@
                 <ul class="treeview-menu">
                     <li class="{{ isActiveRoute('stocks.create') }}"><a href="{{ route('stocks.create') }}"><i class="fa fa-circle-o"></i> New</a></li>
                     <li class="{{ isActiveRoute('stocks.index') }}"><a href="{{ route('stocks.index') }}"><i class="fa fa-circle-o"></i> View</a></li>
-                    <li class="{{ isActiveRoute('availableStock') }}"><a href="{{ route('availableStock') }}"><i class="fa fa-circle-o"></i> Available
-                            Stocks</a></li>
+                    <li class="{{ isActiveRoute('availableStock') }}"><a href="{{ route('availableStock') }}"><i class="fa fa-circle-o"></i> Available Stocks</a></li>
                 </ul>
             </li>
+
             <li class="treeview {{ areActiveRoutes(['sells.search', 'sells.index', 'currentmonth.sell', 'searchMonthRange.sell']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
@@ -74,16 +87,21 @@
             <li class="{{ isActiveRoute('suppliers.index') }}">
                 <a href="{{ route('suppliers.index') }}"> <i class="fa fa-laptop"></i> <span>Suppliers</span></a>
             </li>
-            <li class="treeview {{ areActiveRoutes(['products.create', 'products.index', ]) }}">
+
+            <li class="{{ isActiveRoute('expenses.index') }}">
+                <a href="{{ route('expenses.index') }}"> <i class="fa fa-dashboard"></i> <span>Expenses</span></a>
+            </li>
+            <li class="treeview {{ areActiveRoutes(['sellsReport', 'expenseReport', 'sellsVsexpenseReport']) }}">
                 <a href="#">
-                    <i class="fa fa-edit"></i> <span>Products</span>
+                    <i class="fa fa-bar-chart"></i> <span>Reports</span>
                     <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ isActiveRoute('products.create') }}"><a href="{{ route('products.create') }}"><i class="fa fa-circle-o"></i> New</a></li>
-                    <li class="{{ isActiveRoute('products.index') }}"><a href="{{ route('products.index') }}"><i class="fa fa-circle-o"></i> View</a></li>
+                    <li class="{{ isActiveRoute('sellsReport') }}"><a href="{{ route('sellsReport') }}"><i class="fa fa-circle-o"></i> Sells</a></li>
+                    <li class="{{ isActiveRoute('expenseReport') }}"><a href="{{ route('expenseReport') }}"><i class="fa fa-circle-o"></i> Expense</a></li>
+                    <li class="{{ isActiveRoute('sellsVsexpenseReport') }}"><a href="{{ route('sellsVsexpenseReport') }}"><i class="fa fa-circle-o"></i> Sells vs Expense</a></li>
                 </ul>
             </li>
             <li class="treeview {{ areActiveRoutes(['users.create', 'users.index', ]) }}">
@@ -100,6 +118,27 @@
                 </ul>
             </li>
 
+            @endif
+
+
+            @if(\Cartalyst\Sentinel\Laravel\Facades\Sentinel::check() && \Cartalyst\Sentinel\Laravel\Facades\Sentinel::getUser()->roles()->first()->slug == 'manager')
+
+
+                <li class="treeview {{ areActiveRoutes(['sells.search', 'sells.index', 'currentmonth.sell', 'searchMonthRange.sell']) }}">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Sells</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ isActiveRoute('sells.search') }}"><a href="{{ route('sells.search') }}"><i class="fa fa-circle-o"></i> New Sell</a></li>
+                        <li class="{{ isActiveRoute('sells.index') }}"><a href="{{ route('sells.index') }}"><i class="fa fa-circle-o"></i> View All Sales</a></li>
+                    </ul>
+                </li>
+
+            @endif
 
 
             {{--<li>--}}

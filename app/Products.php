@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
 {
-    protected $fillable = ['name', 'slug', 'category_id', 'brand_id', 'photo_id'];
+    use SoftDeletes;
+	protected $fillable = ['name', 'slug', 'category_id', 'brand_id', 'photo_id'];
+	protected $dates = ['deleted_at'];
+    public $timestamps = true;
 
     public function photo(){
         return $this->belongsTo('App\Photo');

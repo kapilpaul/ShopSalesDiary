@@ -59,11 +59,14 @@
                                         <th>Status</th>
                                         <th>Last Login</th>
                                         <th>Action</th>
+                                        <th></th>
                                     </tr>
                                     @if($users)
+                                        <?php $i=0;?>
                                         @foreach($users as $user)
+                                            <?php $i++;?>
                                     <tr>
-                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $i }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->roles->first()->name }}</td>

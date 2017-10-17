@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StockAddRequest;
+use App\productIMEI;
 use App\Products;
 use App\Stock;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -63,12 +64,24 @@ class StockController extends Controller
 
         $input['due'] = $input['amount'] - $request->paid;
 
-        $input['stockin_id'] = $stock->stockInIdGenerate();
+        $input['stockin_id'] = time();
         $input['stock_left'] = $request->quantity;
 
         $input['user_id'] = Sentinel::getUser()->id;
 
-        Stock::create($input);
+        $stock = Stock::create($input);
+
+        if($request->imei != null){
+            $imeis = explode(',', $request->imei);
+
+            foreach ($imeis as $imei){
+                $input['imei'] = $imei;
+                $input['stock_id'] = $stock->id;
+                productIMEI::create($input);
+            }
+
+        }
+
 
         return redirect()->back()->with(['success' => 'Stock has been added']);
 
@@ -121,6 +134,17 @@ class StockController extends Controller
 
         $stock->update($input);
 
+        if($request->imei != null){
+            $imeis = explode(',', $request->imei);
+
+            foreach ($imeis as $imei){
+                $input['imei'] = $imei;
+                $input['stock_id'] = $stock->id;
+                productIMEI::create($input);
+            }
+
+        }
+
         return redirect()->back()->with(['success' => 'Stock has been Updated']);
     }
 
@@ -144,20 +168,44 @@ class StockController extends Controller
     {
         $product_id = Input::get('product_id');
         $selling_price = Stock::whereId($product_id)->first();
-        return $selling_price;
+
+        $imeis = productIMEI::whereStockId($product_id)->whereSold(0)->get();
+
+        return [$selling_price, $imeis];
 
     }
 
     public function availableStocks()
     {
-        $stocks = Stock::where('stock_left', '>', '0')->get();
-        $page_count = 0;
+        $stocks = Stock::where('stock_left', '!=', 0)->get();
 
-        if(count($stocks) > 10){
-            $stocks = Stock::where('stock_left', '>', '0')->paginate(10,['*'],'stocks');
-            $page_count = $stocks->count();
+        $total_amount = 0;
+
+        foreach ($stocks as $stock){
+            $total_amount = $total_amount + ($stock->buying_price * $stock->stock_left);
         }
-        return view('admin.stock.availableStock', compact('stocks', 'page_count'));
 
+        return view('admin.stock.availableStock', compact('stocks', 'total_amount'));
+
+    }
+
+    public function imeis($stock_id){
+        $imeis = productIMEI::whereStockId($stock_id)->orderBy('sold', 'asc')->get();
+
+        return view('admin.stock.imeis', compact('imeis'));
+    }
+
+
+    public function postDataSearch(Request $request){
+        $products = Products::where('name', 'LIKE', '%'.$request->table_search.'%')->get();
+//        return $products;
+        foreach ($products as $product){
+            $search_stocks = Stock::where('product_id', '=', $product->id)->get();
+            foreach ($search_stocks as $search_stock){
+                $stocks[] = $search_stock;
+            }
+        }
+
+        return view('admin.stock.searchStock', compact('stocks'));
     }
 }

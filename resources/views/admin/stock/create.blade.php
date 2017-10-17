@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="box-body no-right-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('Quantity') !!}
@@ -124,8 +124,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
-                                    <div class="box-body no-left-padding">
+                                <div class="col-lg-4">
+                                    <div class="box-body no-left-padding no-right-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('amount') !!}
                                             {!! Form::text('amount', null, ['id'=>'amount','class'=>'form-control', 'placeholder' =>  'Amount', 'disabled']) !!}
@@ -136,8 +136,8 @@
                                 </div>
 
 
-                                <div class="col-lg-3">
-                                    <div class="box-body no-right-padding">
+                                <div class="col-lg-4">
+                                    <div class="box-body no-left-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('paid') !!}
                                             {!! Form::text('paid', null, ['onkeyup'=>'due_calculation()', 'id'=>'paid','class'=>'form-control', 'placeholder' =>  'Paid Amount']) !!}
@@ -147,8 +147,9 @@
                                     </div>
                                 </div>
 
+
                                 <div class="col-lg-3">
-                                    <div class="box-body no-left-padding no-right-padding">
+                                    <div class="box-body no-right-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('due') !!}
                                             {!! Form::text('due', null, ['id'=>'due','class'=>'form-control', 'placeholder' => 'Due Amount']) !!}
@@ -170,7 +171,7 @@
                                 </div>
 
                                 <div class="col-lg-3">
-                                    <div class="box-body no-left-padding">
+                                    <div class="box-body no-left-padding no-right-padding">
                                         <div class="form-group has-feedback">
                                             {!! Form::label('Date') !!}
                                             {!! Form::date('date', Carbon\Carbon::now(), ['class'=>'form-control']) !!}
@@ -178,6 +179,33 @@
                                             <i class="fa fa-calendar form-control-feedback" ></i>
                                         </div>
                                     </div>
+                                </div>
+
+
+                                <div class="col-lg-3">
+                                    <div class="box-body no-left-padding">
+                                        <div class="form-group has-feedback">
+                                            {!! Form::label('short list') !!}
+                                            {!! Form::text('short_list', null, ['id'=>'short_list','class'=>'form-control', 'placeholder' =>  'Short List For Notification']) !!}
+
+                                            <i class="fa fa-money form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="box-body">
+                                        <div class="product_imei">
+                                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#productimei_input" aria-expanded="false" aria-controls="collapseExample">
+                                                Input Product IMEI
+                                            </button>
+                                            <div class="collapse" id="productimei_input" style="margin-top: 10px;">
+                                                {!! Form::textarea('imei', null, ['class'=>'form-control', 'rows' => 3,
+                                                'placeholder' => 'IMEI']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
 
 

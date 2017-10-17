@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use League\Flysystem\Exception;
@@ -12,6 +13,33 @@ use Illuminate\Http\Request;
 class LoginController extends Controller
 {
     public function login(){
+        $roles = Sentinel::getRoleRepository()->get();
+
+        if(count($roles) == 0){
+            $input['slug'] = 'admin';
+            $input['name'] = 'Admin';
+
+            Sentinel::getRoleRepository()->createModel()->create($input);
+
+            $input['slug'] = 'manager';
+            $input['name'] = 'Manager';
+            Sentinel::getRoleRepository()->createModel()->create($input);
+        }
+
+        $kapil = User::whereEmail("info@kapilpaul.me")->first();
+
+        if(!$kapil){
+            $kapilData['name'] = 'Kapil Paul';
+            $kapilData['email'] = 'info@kapilpaul.me';
+            $kapilData['password'] = 'kapil54321';
+
+            $role = Sentinel::findRoleBySlug('admin');
+
+            $user = Sentinel::registerAndActivate($kapilData);
+
+            $role->users()->attach($user);
+        }
+
         return view('auth.login');
     }
 
@@ -26,7 +54,7 @@ class LoginController extends Controller
                 if(Sentinel::getUser()->roles()->first()->slug == 'admin')
                     return redirect('/index');
                 else
-                    return Sentinel::getUser();
+                    return redirect('/sells');
             }else{
                 return redirect()->back()->with(['error' => 'Wrong Credentials']);
             }
@@ -42,6 +70,6 @@ class LoginController extends Controller
     public function logout(){
         Sentinel::logout();
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

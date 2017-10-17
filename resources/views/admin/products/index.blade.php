@@ -71,7 +71,7 @@
                                             <td>{{ $i }}</td>
                                             <td>
                                                 @if($product->photo)
-                                                <img src="{{ $product->photo->photo }}" alt="" class="img-thumbnail product-image">
+                                                <img src="{{env('APP_URL')}}{{ $product->photo->photo }}" alt="" class="img-thumbnail product-image">
                                                 @else
                                                     No Image Found
                                                 @endif

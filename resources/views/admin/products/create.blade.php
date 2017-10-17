@@ -97,7 +97,7 @@
 
                 <div class="col-md-4">
                     <div class="box box-info">
-                        <div class="box-header with-border">
+                        <div class="box-header text-center with-border">
                             <h3 class="box-title">Add Product Image</h3>
                         </div>
                         <div class="box-body">

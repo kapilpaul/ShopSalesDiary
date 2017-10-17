@@ -38,7 +38,7 @@
 
                 <div class="col-md-12">
                     <div class="box box-info" style="padding-bottom: 20px">
-                        {!! Form::open(['method' => 'POST', 'action' => 'SellsController@create', 'class' =>
+                        {!! Form::open(['method' => 'GET', 'action' => 'SellsController@create', 'class' =>
                         'two_col_forms']) !!}
 
                             <div class="box-body">

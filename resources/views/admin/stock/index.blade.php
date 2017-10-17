@@ -25,6 +25,17 @@
                     <div class="box box-info">
                         <div class="box-header with-border">
                             <h3 class="box-title">All Stocks</h3>
+                            <div class="box-tools">
+
+                                {!! Form::open(['method' => 'GET', 'action' => 'StockController@postDataSearch']) !!}
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    {!! Form::text('table_search', null, ['class'=>'form-control  pull-right', 'placeholder' => 'Search']) !!}
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
                         </div>
 
                         @if(session('success'))
@@ -43,17 +54,21 @@
                                     <tbody>
                                     <tr>
                                         <th style="width: 10px">#</th>
+                                        <th style="width: 70px">Date</th>
                                         <th>Stock ID</th>
                                         <th style="width: 150px">Image</th>
                                         <th>Name</th>
                                         <th>Color</th>
                                         <th>Quantity</th>
+                                        <th>IMEIS</th>
                                         <th>Brand</th>
                                         <th>Category</th>
                                         <th>Buying Price</th>
                                         <th>Selling Price</th>
+                                        <th>Profit</th>
                                         <th>Paid</th>
                                         <th>Due</th>
+                                        <th>Short List</th>
                                         <th>Stock Added By</th>
                                         <th style="width: 20px">Edit</th>
                                         <th style="width: 20px">Delete</th>
@@ -65,23 +80,45 @@
                                         <tr @if($stock->stock_left == null) style="background-color: #ddd" @endif>
                                             <td>{{ $i }}</td>
 
+                                            <td>{{ Carbon\Carbon::parse($stock->created_at)->format('d-m-y h:i A')}}</td>
                                             <td>MGSE-{{ $stock->stockin_id }}</td>
                                             <td>
-                                                @if($stock->product->photo)
-                                                    <img class="img-thumbnail product-image" src="{{ $stock->product->photo->photo }}" alt="">
-                                                @else
-                                                    No Image
+                                                @if($stock->product)
+                                                    @if($stock->product->photo)
+                                                        <img class="img-thumbnail product-image" src="{{ $stock->product->photo->photo }}" alt="">
+                                                    @else
+                                                        No Image
+                                                    @endif
                                                 @endif
                                             </td>
-                                            <td>{{ $stock->product->name }}</td>
+                                            <td>
+                                                @if($stock->product)
+                                                    {{ $stock->product->name }}
+                                                @else -- @endif
+                                            </td>
                                             <td>{{ $stock->color }}</td>
                                             <td>{{ $stock->quantity }}</td>
-                                            <td>{{ $stock->product->brand->name }}</td>
-                                            <td>{{ $stock->product->category->name }}</td>
+                                            <td><a href="{{ route('stock.imeis', $stock->id) }}">IMEIS </a></td>
+                                            <td>
+                                                @if($stock->product)
+                                                    @if($stock->product->brand)
+                                                        {{ $stock->product->brand->name }}
+                                                    @else -- @endif
+                                                @else -- @endif
+                                            </td>
+                                            <td>
+                                                @if($stock->product)
+                                                @if($stock->product->category)
+                                                    {{ $stock->product->category->name }}
+                                                @else -- @endif
+                                                @else -- @endif
+                                            </td>
                                             <td>{{ $stock->buying_price }}</td>
                                             <td>{{ $stock->selling_price }}</td>
+                                            <td>{{ $stock->selling_price - $stock->buying_price }}</td>
                                             <td>{{ $stock->paid }}</td>
                                             <td>{{ $stock->due }}</td>
+                                            <td>@if($stock->short_list) {{ $stock->short_list }} @else -- @endif</td>
                                             <td>{{ $stock->user->name }}</td>
 
                                             <td>

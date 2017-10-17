@@ -45,7 +45,7 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="{{ route('home') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>M</b>G</span>
                 <!-- logo for regular state and mobile devices -->
@@ -329,9 +329,9 @@
 
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
+                <b>Version</b> 1.0
             </div>
-            <strong>Copyright &copy; 2017<a href="https://kapilpaul.me">Kapil Paul</a>.</strong> All rights
+            <strong>Copyright &copy; 2017 <a href="http://kapilpaul.me">Kapil Paul</a>.</strong> All rights
             reserved.
         </footer>
 
@@ -341,6 +341,8 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ asset('js/vendor/jquery-3.2.1.min.js') }}"><\/script>')
+    </script>
 
     <!-- Bootstrap 3.3.7 -->
     <script src="{{asset('libs/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
@@ -360,10 +362,11 @@
     <script src="{{asset('libs/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
     <!-- ChartJS -->
     <script src="{{asset('libs/bower_components/Chart.js/Chart.js')}}"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{asset('libs/dist/js/pages/dashboard2.js')}}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{asset('libs/dist/js/demo.js')}}"></script>
+
+    {{--<!-- AdminLTE dashboard demo (This is only for demo purposes) -->--}}
+    {{--<script src="{{asset('libs/dist/js/pages/dashboard2.js')}}"></script>--}}
+    {{--<!-- AdminLTE for demo purposes -->--}}
+    {{--<script src="{{asset('libs/dist/js/demo.js')}}"></script>--}}
 
 
 

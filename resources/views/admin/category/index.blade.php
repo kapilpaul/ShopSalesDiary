@@ -71,6 +71,11 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">All Categories</h3>
+                            @if(count($trashed) > 0)
+                                <div class="box-tools">
+                                    <a class="restore" href="{{ route('deletedCategory') }}">Deleted Categories</a>
+                                </div>
+                            @endif
                         </div>
 
                         @if(session('cat_success'))

@@ -19,6 +19,6 @@ class admincheck
         if(Sentinel::check() && Sentinel::getUser()->roles()->first()->slug == 'admin')
             return $next($request);
         else
-            return redirect('/login');
+            return redirect('/');
     }
 }

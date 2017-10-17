@@ -68,8 +68,6 @@
             {!! Form::close() !!}
 
             <a href="{{ route('forgotpassword') }}">I forgot my password</a>
-            <br>
-            <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
         </div>
         <!-- /.form-box -->
     </div>

@@ -26,9 +26,9 @@ class CreateStocksTable extends Migration
             $table->bigInteger('paid')->nullable();
             $table->bigInteger('due')->nullable();
             $table->integer('waranty')->nullable();
+            $table->integer('return')->unsigned()->default(0);;
             $table->date('date');
             $table->integer('user_id')->unsigned();
-            $table->integer('empty')->unsigned()->default(0);
             $table->timestamps();
         });
     }

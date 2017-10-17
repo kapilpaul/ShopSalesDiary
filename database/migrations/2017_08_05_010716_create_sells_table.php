@@ -15,17 +15,19 @@ class CreateSellsTable extends Migration
     {
         Schema::create('sells', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('invoice_no')->unique();
+            $table->string('invoice_no');
             $table->integer('customer_id');
-            $table->string('product_code')->nullable()->unique();
+            $table->string('productimei_id')->nullable();
             $table->integer('stock_id');
             $table->integer('quantity');
-            $table->integer('discount');
+            $table->integer('discount')->default(0);
+            $table->integer('due')->default(0);
             $table->integer('total_amount');
             $table->string('gifts')->nullable();
             $table->string('service')->nullable();
             $table->integer('user_id');
             $table->timestamps();
+			$table->softDeletes();
         });
     }
 

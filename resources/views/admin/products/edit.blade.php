@@ -76,6 +76,7 @@
                                     </span>
                                 @endif
                             </div>
+
                             <div id="image-preview">
                                 <div class="">
                                     <label for="image-upload" id="image-label">Choose Image</label>
